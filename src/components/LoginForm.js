@@ -1,4 +1,5 @@
 import React from "react";
+import { Button, Col, Form } from "react-bootstrap";
 
 export default function LoginForm({
   handleLogin,
@@ -8,26 +9,33 @@ export default function LoginForm({
   setPassword,
 }) {
   return (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-        <input
-          type="text"
-          value={socialSecurityNumber}
-          name="socialSecurityNumber"
-          onChange={({ target }) => setSocialSecurityNumber(target.value)}
-        />
-      </div>
-      <div>
-        password
-        <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>
+    <Form onSubmit={handleLogin} className="border container">
+      <Col xs={6}>
+        <Form.Group controlId="socialSecurityNumber">
+          <Form.Control
+            required
+            type="text"
+            placeholder="Enter social security number"
+            value={socialSecurityNumber}
+            onChange={(e) => setSocialSecurityNumber(e.target.value)}
+          />
+        </Form.Group>
+      </Col>
+
+      <Col xs={6}>
+        <Form.Group controlId="password">
+          <Form.Control
+            type="password"
+            placeholder="Enter Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </Form.Group>
+      </Col>
+      <Button variant="primary" type="submit">
+        sign in
+      </Button>
+    </Form>
   );
 }

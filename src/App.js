@@ -5,12 +5,14 @@ import LoginForm from "./components/LoginForm";
 import Profile from "./components/Profile";
 import TopNav from "./components/TopNav";
 import loginService from "./services/login";
+import UserUpdate from "./services/UserUpdate";
 
 const App = () => {
   const [socialSecurityNumber, setSocialSecurityNumber] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-
+  const [newAddress, setNewAddress] = useState("");
+  const [newPass, setNewPass] = useState("");
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedEmployee");
     if (loggedUserJSON) {
@@ -28,8 +30,9 @@ const App = () => {
         password,
       });
       window.localStorage.setItem("loggedEmployee", JSON.stringify(user));
+      UserUpdate.setToken(user.token);
       setUser(user);
-      console.log(user);
+
       setSocialSecurityNumber("");
       setPassword("");
     } catch (exception) {
@@ -55,7 +58,13 @@ const App = () => {
               <Home isManager={user.isManager} />
             </Route>
             <Route exact path="/profile">
-              <Profile />
+              <Profile
+                newAddress={newAddress}
+                setNewAddress={setNewAddress}
+                newPass={newPass}
+                setNewPass={setNewPass}
+                userId={user.id}
+              />
             </Route>
           </Switch>
         </Router>
