@@ -19,7 +19,9 @@ export default function TopNav({ setUser }) {
           <LinkContainer to="/profile">
             <Nav.Link>Profile</Nav.Link>
           </LinkContainer>
-
+          <LinkContainer to="/messages">
+            <Nav.Link>Messages</Nav.Link>
+          </LinkContainer>
           <Nav.Link onClick={logoutHandler}>Log out</Nav.Link>
         </Nav>
       </Navbar.Collapse>
