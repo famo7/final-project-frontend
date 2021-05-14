@@ -28,7 +28,6 @@ export default function Profile({
         <Form.Group controlId="address">
           <Form.Label>address</Form.Label>
           <Form.Control
-            required
             type="text"
             placeholder="Enter address"
             value={newAddress}
@@ -43,7 +42,6 @@ export default function Profile({
             placeholder="Enter Password"
             value={newPass}
             onChange={(e) => setNewPass(e.target.value)}
-            required
           />
         </Form.Group>
 

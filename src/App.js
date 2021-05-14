@@ -16,14 +16,19 @@ const App = () => {
   const [newAddress, setNewAddress] = useState("");
   const [newPass, setNewPass] = useState("");
   const [messages, setMessages] = useState([]);
+  const [to, setTo] = useState("");
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedEmployee");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
+      messageService.setToken(user.token);
+      messageService.getAll().then((msg) => setMessages(msg.messages));
     }
-  }, []);
+  }, [messages]);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -73,7 +78,15 @@ const App = () => {
               />
             </Route>
             <Route exact path="/messages">
-              <Messages messages={messages} />
+              <Messages
+                messages={messages}
+                to={to}
+                title={title}
+                body={body}
+                setTo={setTo}
+                setTitle={setTitle}
+                setBody={setBody}
+              />
             </Route>
           </Switch>
         </Router>

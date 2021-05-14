@@ -16,4 +16,21 @@ const getAll = () => {
   return request.then((response) => response.data);
 };
 
-export default { getAll, setToken };
+const deleteOne = (id) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+  const request = axios.delete(baseUrl + "/messages/" + id, config);
+  return request.then((response) => response.data);
+};
+
+const sendMessage = (msg) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+
+  const request = axios.post(baseUrl + "/messages", msg, config);
+  return request.then((response) => response.data);
+};
+
+export default { getAll, setToken, deleteOne, sendMessage };
