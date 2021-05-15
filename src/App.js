@@ -8,6 +8,7 @@ import TopNav from "./components/TopNav";
 import loginService from "./services/login";
 import UserUpdate from "./services/UserUpdate";
 import messageService from "./services/messages";
+import MessageAlert from "./components/MessageAlert";
 
 const App = () => {
   const [socialSecurityNumber, setSocialSecurityNumber] = useState("");
@@ -19,7 +20,8 @@ const App = () => {
   const [to, setTo] = useState("");
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-
+  const [message, setMessage] = useState(null);
+  const [messageColor, setMessageColor] = useState("");
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedEmployee");
     if (loggedUserJSON) {
@@ -43,7 +45,11 @@ const App = () => {
       messageService.setToken(user.token);
       messageService.getAll().then((msg) => setMessages(msg.messages));
       setUser(user);
-
+      setMessage(`welcome ${user.firstName}`);
+      setMessageColor("success");
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
       setSocialSecurityNumber("");
       setPassword("");
     } catch (exception) {
@@ -63,6 +69,8 @@ const App = () => {
         />
       ) : (
         <Router>
+          <MessageAlert color={messageColor} message={message} />
+
           <TopNav setUser={setUser} />
           <Switch>
             <Route exact path="/">
@@ -86,6 +94,8 @@ const App = () => {
                 setTo={setTo}
                 setTitle={setTitle}
                 setBody={setBody}
+                setMessage={setMessage}
+                setMessageColor={setMessageColor}
               />
             </Route>
           </Switch>
