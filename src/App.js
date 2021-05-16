@@ -48,7 +48,10 @@ const App = () => {
         password,
       });
       window.localStorage.setItem("loggedEmployee", JSON.stringify(user));
+
       UserUpdate.setToken(user.token);
+      messageService.setToken(user.token);
+      messageService.getAll().then((msg) => setMessages(msg.messages));
 
       setUser(user);
       setMessage(`welcome ${user.firstName}`);
