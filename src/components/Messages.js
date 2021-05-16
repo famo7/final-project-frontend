@@ -1,8 +1,7 @@
 import React from "react";
-import { Alert, Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import Message from "./Message";
 import messageService from "../services/messages";
-import MessageAlert from "./MessageAlert";
 
 export default function Messages({
   messages,
@@ -14,6 +13,7 @@ export default function Messages({
   setBody,
   setMessageColor,
   setMessage,
+  setMessages,
 }) {
   const handleClick = (e) => {
     e.preventDefault();
@@ -21,6 +21,7 @@ export default function Messages({
     messageService
       .sendMessage({ to: to, title: title, body: body })
       .then((i) => {
+        setMessages(messages.concat(i));
         setMessage("Message successfully sent");
         setMessageColor("success");
         setTimeout(() => {
@@ -41,7 +42,12 @@ export default function Messages({
         <Col>
           <h1>Messages</h1>
           {messages.map((message) => (
-            <Message key={message._id} message={message} />
+            <Message
+              key={message._id}
+              message={message}
+              setMessages={setMessages}
+              messages={messages}
+            />
           ))}
         </Col>
 

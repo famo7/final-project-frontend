@@ -2,9 +2,10 @@ import React from "react";
 import { Button, Card } from "react-bootstrap";
 import messageService from "../services/messages";
 import { format } from "date-fns";
-export default function Message({ message }) {
+export default function Message({ message, setMessages, messages }) {
   const deleteMessage = () => {
     messageService.deleteOne(message._id);
+    setMessages(messages.filter((i) => i._id != message._id));
   };
 
   return (

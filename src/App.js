@@ -9,6 +9,7 @@ import loginService from "./services/login";
 import UserUpdate from "./services/UserUpdate";
 import messageService from "./services/messages";
 import MessageAlert from "./components/MessageAlert";
+import taskService from "./services/tasks";
 
 const App = () => {
   const [socialSecurityNumber, setSocialSecurityNumber] = useState("");
@@ -22,15 +23,21 @@ const App = () => {
   const [body, setBody] = useState("");
   const [message, setMessage] = useState(null);
   const [messageColor, setMessageColor] = useState("");
+  const [tasks, setTasks] = useState([]);
+
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedEmployee");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
+
       messageService.setToken(user.token);
       messageService.getAll().then((msg) => setMessages(msg.messages));
     }
-  }, [messages]);
+
+    // taskService.setToken(user.token);
+    // taskService.getAll().then((t) => setTasks(t));
+  }, []);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -42,23 +49,29 @@ const App = () => {
       });
       window.localStorage.setItem("loggedEmployee", JSON.stringify(user));
       UserUpdate.setToken(user.token);
-      messageService.setToken(user.token);
-      messageService.getAll().then((msg) => setMessages(msg.messages));
+
       setUser(user);
       setMessage(`welcome ${user.firstName}`);
       setMessageColor("success");
+
       setTimeout(() => {
         setMessage(null);
       }, 5000);
       setSocialSecurityNumber("");
       setPassword("");
     } catch (exception) {
-      console.log("User name or password incorrect");
+      setMessage("User name or password incorrect");
+      setMessageColor("danger");
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
     }
   };
 
   return (
     <div>
+      <MessageAlert color={messageColor} message={message} />
+
       {user === null ? (
         <LoginForm
           handleLogin={handleLogin}
@@ -69,8 +82,6 @@ const App = () => {
         />
       ) : (
         <Router>
-          <MessageAlert color={messageColor} message={message} />
-
           <TopNav setUser={setUser} />
           <Switch>
             <Route exact path="/">
@@ -96,6 +107,8 @@ const App = () => {
                 setBody={setBody}
                 setMessage={setMessage}
                 setMessageColor={setMessageColor}
+                setMessages={setMessages}
+                user={user}
               />
             </Route>
           </Switch>
