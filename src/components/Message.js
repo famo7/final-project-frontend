@@ -1,7 +1,8 @@
 import React from "react";
 import { Button, Card } from "react-bootstrap";
 import messageService from "../services/messages";
-import { format } from "date-fns";
+import timeService from "../services/time";
+
 export default function Message({ message, setMessages, messages }) {
   const deleteMessage = () => {
     messageService.deleteOne(message._id);
@@ -11,7 +12,7 @@ export default function Message({ message, setMessages, messages }) {
   return (
     <Card style={{ width: "18rem" }}>
       <Card.Header>
-        received: {format(new Date(message.date), "MM/dd/yyyy HH:mm")}
+        received: {timeService.formatTime(message.date)}
       </Card.Header>
       <Card.Body>
         <Card.Title>{message.title}</Card.Title>

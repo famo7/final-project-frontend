@@ -13,8 +13,23 @@ const getAll = () => {
   };
 
   const request = axios.get(baseUrl + "/tasks", config);
-  console.log(baseUrl + "/tasks");
   return request.then((response) => response.data);
 };
 
-export default { getAll, setToken };
+const updateTime = (id, obj) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+
+  const request = axios.put(baseUrl + "/times" + "/" + id, obj, config);
+  return request.then((response) => response.data);
+};
+const updateStatus = (id, obj) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+
+  const request = axios.put(baseUrl + "/tasks" + "/" + id, obj, config);
+  return request.then((response) => response.data);
+};
+export default { getAll, setToken, updateTime, updateStatus };

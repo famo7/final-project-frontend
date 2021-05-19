@@ -33,10 +33,9 @@ const App = () => {
 
       messageService.setToken(user.token);
       messageService.getAll().then((msg) => setMessages(msg.messages));
+      taskService.setToken(user.token);
+      taskService.getAll().then((t) => setTasks(t.tasks));
     }
-
-    // taskService.setToken(user.token);
-    // taskService.getAll().then((t) => setTasks(t));
   }, []);
 
   const handleLogin = async (event) => {
@@ -52,7 +51,8 @@ const App = () => {
       UserUpdate.setToken(user.token);
       messageService.setToken(user.token);
       messageService.getAll().then((msg) => setMessages(msg.messages));
-
+      taskService.setToken(user.token);
+      taskService.getAll().then((t) => setTasks(t.tasks));
       setUser(user);
       setMessage(`welcome ${user.firstName}`);
       setMessageColor("success");
@@ -88,7 +88,11 @@ const App = () => {
           <TopNav setUser={setUser} />
           <Switch>
             <Route exact path="/">
-              <Home isManager={user.isManager} />
+              <Home
+                isManager={user.isManager}
+                tasks={tasks}
+                setTasks={setTasks}
+              />
             </Route>
             <Route exact path="/profile">
               <Profile
