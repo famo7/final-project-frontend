@@ -21,7 +21,6 @@ export default function Messages({
     messageService
       .sendMessage({ to: to, title: title, body: body })
       .then((i) => {
-        setMessages(messages.concat(i));
         setMessage("Message successfully sent");
         setMessageColor("success");
         setTimeout(() => {

@@ -10,6 +10,7 @@ import UserUpdate from "./services/UserUpdate";
 import messageService from "./services/messages";
 import MessageAlert from "./components/MessageAlert";
 import taskService from "./services/tasks";
+import employeeService from "./services/employees";
 
 const App = () => {
   const [socialSecurityNumber, setSocialSecurityNumber] = useState("");
@@ -24,6 +25,7 @@ const App = () => {
   const [message, setMessage] = useState(null);
   const [messageColor, setMessageColor] = useState("");
   const [tasks, setTasks] = useState([]);
+  const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedEmployee");
@@ -33,8 +35,13 @@ const App = () => {
 
       messageService.setToken(user.token);
       messageService.getAll().then((msg) => setMessages(msg.messages));
-      taskService.setToken(user.token);
-      taskService.getAll().then((t) => setTasks(t.tasks));
+      if (!user.isManager) {
+        taskService.setToken(user.token);
+        taskService.getAll().then((t) => setTasks(t.tasks));
+      } else {
+        employeeService.setToken(user.token);
+        employeeService.getAll().then((e) => setEmployees(e));
+      }
     }
   }, []);
 
@@ -51,8 +58,14 @@ const App = () => {
       UserUpdate.setToken(user.token);
       messageService.setToken(user.token);
       messageService.getAll().then((msg) => setMessages(msg.messages));
-      taskService.setToken(user.token);
-      taskService.getAll().then((t) => setTasks(t.tasks));
+      if (!user.isManager) {
+        taskService.setToken(user.token);
+        taskService.getAll().then((t) => setTasks(t.tasks));
+      } else {
+        employeeService.setToken(user.token);
+        employeeService.getAll().then((e) => setEmployees(e));
+      }
+
       setUser(user);
       setMessage(`welcome ${user.firstName}`);
       setMessageColor("success");
@@ -92,6 +105,8 @@ const App = () => {
                 isManager={user.isManager}
                 tasks={tasks}
                 setTasks={setTasks}
+                employees={employees}
+                setEmployees={setEmployees}
               />
             </Route>
             <Route exact path="/profile">
