@@ -7,7 +7,7 @@ export default function Home({
   setTasks,
   employees,
   setEmployees,
-  user = { user },
+  user,
 }) {
   if (!isManager) {
     return (
