@@ -107,6 +107,7 @@ const App = () => {
                 setTasks={setTasks}
                 employees={employees}
                 setEmployees={setEmployees}
+                user={user}
               />
             </Route>
             <Route exact path="/profile">

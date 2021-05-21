@@ -7,15 +7,22 @@ export default function Home({
   setTasks,
   employees,
   setEmployees,
+  user = { user },
 }) {
   if (!isManager) {
     return (
       <div>
         <h1>your tasks</h1>
-        <Tasks tasks={tasks} setTasks={setTasks} />
+        <Tasks isManager={isManager} tasks={tasks} setTasks={setTasks} />
       </div>
     );
   } else {
-    return <Employees employees={employees} setEmployees={setEmployees} />;
+    return (
+      <Employees
+        employees={employees}
+        setEmployees={setEmployees}
+        user={user}
+      />
+    );
   }
 }

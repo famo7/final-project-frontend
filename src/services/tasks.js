@@ -32,4 +32,13 @@ const updateStatus = (id, obj) => {
   const request = axios.put(baseUrl + "/tasks" + "/" + id, obj, config);
   return request.then((response) => response.data);
 };
-export default { getAll, setToken, updateTime, updateStatus };
+
+const deleteTask = (id) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+
+  const request = axios.delete(baseUrl + "/tasks" + "/" + id, config);
+  return request.then((response) => response.data);
+};
+export default { getAll, setToken, updateTime, updateStatus, deleteTask };
