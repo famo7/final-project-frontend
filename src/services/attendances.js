@@ -7,21 +7,22 @@ const setToken = (newToken) => {
   token = `bearer ${newToken}`;
 };
 
-const getAll = () => {
+const deleteOne = (id) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+  const request = axios.delete(baseUrl + "/attendances/" + id, config);
+  return request.then((response) => response.data);
+};
+
+const updateAttendance = (id, newObject) => {
   const config = {
     headers: { Authorization: token },
   };
 
-  const request = axios.get(baseUrl + "/employees", config);
-  return request.then((response) => response.data);
-};
-const createEmp = (emp) => {
-  const config = {
-    headers: { Authorization: token },
-  };
-
-  const request = axios.post(baseUrl + "/employees", emp, config);
+  const request = axios.put(baseUrl + "/attendances/" + id, newObject, config);
+  console.log(config);
   return request.then((response) => response.data);
 };
 
-export default { setToken, getAll, createEmp };
+export default { setToken, deleteOne, updateAttendance };

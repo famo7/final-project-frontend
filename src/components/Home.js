@@ -8,6 +8,8 @@ export default function Home({
   employees,
   setEmployees,
   user,
+  setMessageColor,
+  setMessage,
 }) {
   if (!isManager) {
     return (
@@ -22,6 +24,8 @@ export default function Home({
         employees={employees}
         setEmployees={setEmployees}
         user={user}
+        setMessage={setMessage}
+        setMessageColor={setMessageColor}
       />
     );
   }

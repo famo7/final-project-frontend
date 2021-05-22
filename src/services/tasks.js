@@ -41,4 +41,20 @@ const deleteTask = (id) => {
   const request = axios.delete(baseUrl + "/tasks" + "/" + id, config);
   return request.then((response) => response.data);
 };
-export default { getAll, setToken, updateTime, updateStatus, deleteTask };
+
+const createTask = (obj) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+
+  const request = axios.post(baseUrl + "/tasks", obj, config);
+  return request.then((response) => response.data);
+};
+export default {
+  getAll,
+  setToken,
+  updateTime,
+  updateStatus,
+  deleteTask,
+  createTask,
+};

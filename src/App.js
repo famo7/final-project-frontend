@@ -108,6 +108,8 @@ const App = () => {
                 employees={employees}
                 setEmployees={setEmployees}
                 user={user}
+                setMessage={setMessage}
+                setMessageColor={setMessageColor}
               />
             </Route>
             <Route exact path="/profile">
