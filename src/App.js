@@ -13,6 +13,7 @@ import taskService from "./services/tasks";
 import employeeService from "./services/employees";
 
 const App = () => {
+  // all state variables
   const [socialSecurityNumber, setSocialSecurityNumber] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
@@ -28,44 +29,59 @@ const App = () => {
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
+    // check if employee is logged in using localstorage
     const loggedUserJSON = window.localStorage.getItem("loggedEmployee");
     if (loggedUserJSON) {
+      // set user if employee is logged in
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
 
+      // set token and get all messages
       messageService.setToken(user.token);
       messageService.getAll().then((msg) => setMessages(msg.messages));
       if (!user.isManager) {
+        // if employee is not manager just get the tasks assigned to them
         taskService.setToken(user.token);
         taskService.getAll().then((t) => setTasks(t.tasks));
       } else {
+        // if manager get all employees with all data
         employeeService.setToken(user.token);
         employeeService.getAll().then((e) => setEmployees(e));
       }
     }
   }, []);
 
+  // function when user logs in
   const handleLogin = async (event) => {
     event.preventDefault();
 
     try {
+      // use login service from services to login
       const user = await loginService.login({
+        // password and social security number
         socialSecurityNumber,
         password,
       });
+      // store the user in localstorage
       window.localStorage.setItem("loggedEmployee", JSON.stringify(user));
 
+      // set token when user is logged in and want to update their info
       UserUpdate.setToken(user.token);
+      // set token for getting all user messages
       messageService.setToken(user.token);
+      // get all messages
       messageService.getAll().then((msg) => setMessages(msg.messages));
+      // if user is not manager, get all assigned tasks
       if (!user.isManager) {
         taskService.setToken(user.token);
         taskService.getAll().then((t) => setTasks(t.tasks));
       } else {
+        // else get everything for the manager
         employeeService.setToken(user.token);
         employeeService.getAll().then((e) => setEmployees(e));
       }
 
+      // set user and display success message after login
       setUser(user);
       setMessage(`welcome ${user.firstName}`);
       setMessageColor("success");
@@ -76,6 +92,7 @@ const App = () => {
       setSocialSecurityNumber("");
       setPassword("");
     } catch (exception) {
+      // else display error messages
       setMessage("User name or password incorrect");
       setMessageColor("danger");
       setTimeout(() => {
@@ -86,7 +103,11 @@ const App = () => {
 
   return (
     <div>
+      {/* message alert at the top */}
       <MessageAlert color={messageColor} message={message} />
+
+      {/* check if there is user, if there is no user, show login form
+      else show the navigation */}
 
       {user === null ? (
         <LoginForm

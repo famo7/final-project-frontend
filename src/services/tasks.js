@@ -1,12 +1,15 @@
 import axios from "axios";
+// set base url
 const baseUrl = "http://localhost:5000/api";
 
 let token = null;
 
+// set token
 const setToken = (newToken) => {
   token = `bearer ${newToken}`;
 };
 
+// get all tasks
 const getAll = () => {
   const config = {
     headers: { Authorization: token },
@@ -16,6 +19,7 @@ const getAll = () => {
   return request.then((response) => response.data);
 };
 
+// update the time for tasks
 const updateTime = (id, obj) => {
   const config = {
     headers: { Authorization: token },
@@ -24,6 +28,7 @@ const updateTime = (id, obj) => {
   const request = axios.put(baseUrl + "/times" + "/" + id, obj, config);
   return request.then((response) => response.data);
 };
+// update status for task
 const updateStatus = (id, obj) => {
   const config = {
     headers: { Authorization: token },
@@ -33,6 +38,7 @@ const updateStatus = (id, obj) => {
   return request.then((response) => response.data);
 };
 
+// delete a task
 const deleteTask = (id) => {
   const config = {
     headers: { Authorization: token },
@@ -50,6 +56,7 @@ const createTask = (obj) => {
   const request = axios.post(baseUrl + "/tasks", obj, config);
   return request.then((response) => response.data);
 };
+// export all functions
 export default {
   getAll,
   setToken,

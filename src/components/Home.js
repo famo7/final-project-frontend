@@ -12,6 +12,7 @@ export default function Home({
   setMessage,
 }) {
   if (!isManager) {
+    // if not manager, show assigned tasks
     return (
       <div>
         <h1>your tasks</h1>
@@ -19,6 +20,7 @@ export default function Home({
       </div>
     );
   } else {
+    // if manager show all employees and all data
     return (
       <Employees
         employees={employees}

@@ -3,10 +3,12 @@ const baseUrl = "http://localhost:5000/api";
 
 let token = null;
 
+// set token
 const setToken = (newToken) => {
   token = `bearer ${newToken}`;
 };
 
+// get all messages
 const getAll = () => {
   const config = {
     headers: { Authorization: token },
@@ -16,6 +18,7 @@ const getAll = () => {
   return request.then((response) => response.data);
 };
 
+// delete message inbox
 const deleteOne = (id) => {
   const config = {
     headers: { Authorization: token },
@@ -24,6 +27,7 @@ const deleteOne = (id) => {
   return request.then((response) => response.data);
 };
 
+// send message
 const sendMessage = (msg) => {
   const config = {
     headers: { Authorization: token },
@@ -33,4 +37,5 @@ const sendMessage = (msg) => {
   return request.then((response) => response.data);
 };
 
+// export all functions
 export default { getAll, setToken, deleteOne, sendMessage };

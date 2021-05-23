@@ -3,6 +3,7 @@ import Task from "./Task";
 
 export default function Tasks({ tasks, setTasks, isManager }) {
   return (
+    // loop over all tasks and render them using a Task component
     <div className="row">
       {tasks.map((task) => (
         <Task

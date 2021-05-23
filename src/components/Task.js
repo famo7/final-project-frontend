@@ -5,11 +5,14 @@ import timeService from "../services/time";
 
 export default function Task({ task, tasks, setTasks }) {
   const startTime = () => {
+    // update status using task service
     taskService.updateStatus(task._id, { status: "In progress" });
+    // date now
     let now = new Date().toString();
 
     taskService.updateTime(task._id, { startTime: now, endTime: task.endTime });
 
+    // update state after start time changes
     setTasks(
       [...tasks].map((object) => {
         if (object._id === task._id) {
@@ -32,6 +35,7 @@ export default function Task({ task, tasks, setTasks }) {
         endTime: now,
       });
 
+      // update state after endTime updates
       setTasks(
         [...tasks].map((object) => {
           if (object._id === task._id) {
@@ -47,6 +51,7 @@ export default function Task({ task, tasks, setTasks }) {
   };
 
   return (
+    // render cart for every task
     <Card className="col-xs-3">
       <Card.Header>Task from : {task.createdBy}</Card.Header>
       <Card.Body>

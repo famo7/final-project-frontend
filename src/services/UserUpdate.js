@@ -7,14 +7,17 @@ const setToken = (newToken) => {
   token = `bearer ${newToken}`;
 };
 
+// set authorization
 const update = async (id, newObject) => {
   const config = {
     headers: { Authorization: token },
   };
 
+  // send put request to update profile
   const request = axios.put(`${baseUrl}/${id}`, newObject, config);
-  console.log(config);
+
   return request.then((response) => response.data);
 };
 
+// export funtions needed
 export default { update, setToken };

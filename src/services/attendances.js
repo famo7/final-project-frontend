@@ -3,10 +3,12 @@ const baseUrl = "http://localhost:5000/api";
 
 let token = null;
 
+// set token
 const setToken = (newToken) => {
   token = `bearer ${newToken}`;
 };
 
+// delete one attendance
 const deleteOne = (id) => {
   const config = {
     headers: { Authorization: token },
@@ -15,6 +17,7 @@ const deleteOne = (id) => {
   return request.then((response) => response.data);
 };
 
+// update one attendance
 const updateAttendance = (id, newObject) => {
   const config = {
     headers: { Authorization: token },
@@ -25,4 +28,5 @@ const updateAttendance = (id, newObject) => {
   return request.then((response) => response.data);
 };
 
+// export all functions
 export default { setToken, deleteOne, updateAttendance };

@@ -10,6 +10,7 @@ export default function Employees({
   setMessage,
   setMessageColor,
 }) {
+  // all states for employee
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [address, setAddress] = useState("");
@@ -26,7 +27,9 @@ export default function Employees({
   const [assignedTo, setAssignedTo] = useState("");
   const [deadLine, setDeadLine] = useState("");
   const handleCreateTask = (e) => {
+    // prevent default on submit
     e.preventDefault();
+    // get the data using the states
     const data = {
       title: title,
       description: description,
@@ -34,10 +37,12 @@ export default function Employees({
       deadLine: deadLine,
     };
 
+    // setToken and create a new Task
     taskService.setToken(user.token);
     taskService
       .createTask(data)
       .then((i) => {
+        // success message
         setMessage("Task successfully assigned");
         setMessageColor("success");
         setTimeout(() => {
@@ -46,6 +51,7 @@ export default function Employees({
         }, 5000);
       })
       .catch((ex) => {
+        // error message
         setMessage("something went wrong");
         setMessageColor("danger");
         setTimeout(() => {
@@ -54,7 +60,9 @@ export default function Employees({
       });
   };
   const handleCreateEmp = (e) => {
+    // prevent default
     e.preventDefault();
+    // setToken and create employee using employee service
     employeeService.setToken(user.token);
     employeeService
       .createEmp({
@@ -72,7 +80,9 @@ export default function Employees({
         department: department,
       })
       .then((i) => {
+        // update state by adding to the employees state
         setEmployees(employees.concat(i));
+        // success message
         setMessage("Employee successfully created");
         setMessageColor("success");
         setTimeout(() => {
@@ -80,6 +90,7 @@ export default function Employees({
         }, 5000);
       })
       .catch((ex) => {
+        // error message if error
         setMessage("Something went wrong, try again");
         setMessageColor("danger");
         setTimeout(() => {
@@ -88,6 +99,7 @@ export default function Employees({
       });
   };
   return (
+    // render all employees using Employee component
     <div>
       <h1>Employees</h1>
       <Row>
@@ -105,6 +117,7 @@ export default function Employees({
 
         <Col xs={3}>
           <h2>Assign Task</h2>
+          {/* when form for task creation is submited, call handleCreateTask */}
           <Form onSubmit={handleCreateTask}>
             <Form.Group controlId="title">
               <Form.Label>Title</Form.Label>
@@ -112,6 +125,7 @@ export default function Employees({
                 type="text"
                 placeholder="Enter title"
                 value={title}
+                // set title
                 onChange={(e) => setTitle(e.target.value)}
               />
             </Form.Group>
@@ -122,6 +136,7 @@ export default function Employees({
                 type="text"
                 placeholder="Enter description"
                 value={description}
+                // setDescription when state changes
                 onChange={(e) => setDescription(e.target.value)}
               />
             </Form.Group>
@@ -132,6 +147,7 @@ export default function Employees({
                 type="date"
                 style={{ width: "100%" }}
                 value={deadLine}
+                // set Deadline when state changes
                 onChange={(e) => setDeadLine(e.target.value)}
               />
             </Form.Group>
@@ -153,6 +169,7 @@ export default function Employees({
 
         <Col xs={3}>
           <h2>Create employee</h2>
+          {/* when form for Employee creation is submited, call handleCreateEmp */}
           <Form onSubmit={handleCreateEmp}>
             <Form.Group controlId="firstName">
               <Form.Label>firstName</Form.Label>
@@ -242,7 +259,7 @@ export default function Employees({
               />
             </Form.Group>
 
-            <Form.Group controlId="formBasicCheckbox2">
+            <Form.Group controlId="formBasicCheckbox">
               <Form.Check
                 type="checkbox"
                 label="Employed"

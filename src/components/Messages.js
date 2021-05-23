@@ -16,11 +16,14 @@ export default function Messages({
   setMessages,
 }) {
   const handleClick = (e) => {
+    // prevent default for form
     e.preventDefault();
 
+    // send message using message service
     messageService
       .sendMessage({ to: to, title: title, body: body })
       .then((i) => {
+        // display success message if successful
         setMessage("Message successfully sent");
         setMessageColor("success");
         setTimeout(() => {
@@ -28,6 +31,7 @@ export default function Messages({
         }, 5000);
       })
       .catch((err) => {
+        // display error message if sending message fails
         setMessageColor("danger");
         setMessage("Something went wrong, try again");
         setTimeout(() => {
@@ -36,6 +40,7 @@ export default function Messages({
       });
   };
   return (
+    // render all messages for current user
     <div>
       <Row>
         <Col>
@@ -51,6 +56,7 @@ export default function Messages({
         </Col>
 
         <Col>
+          {/* form for sending message, handleClick is fired on submit */}
           <Form onSubmit={handleClick}>
             <Form.Group controlId="to">
               <Form.Label>to</Form.Label>

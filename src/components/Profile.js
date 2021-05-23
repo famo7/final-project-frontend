@@ -10,9 +10,11 @@ export default function Profile({
   userId,
 }) {
   const handleUpdate = async (e) => {
+    // prevent default form submit
     e.preventDefault();
 
     try {
+      // update user data using userId
       await UserUpdate.update(userId, {
         address: newAddress,
         password: newPass,
@@ -23,6 +25,7 @@ export default function Profile({
   };
 
   return (
+    // form for updating user profile(address and password)
     <div className="container">
       <Form onSubmit={handleUpdate}>
         <Form.Group controlId="address">

@@ -9,6 +9,8 @@ export default function LoginForm({
   setPassword,
 }) {
   return (
+    // handleLogin function is fired on click
+    // login form
     <Form onSubmit={handleLogin} className="border container">
       <Col xs={6}>
         <Form.Group controlId="socialSecurityNumber">

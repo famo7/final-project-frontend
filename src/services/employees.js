@@ -3,10 +3,12 @@ const baseUrl = "http://localhost:5000/api";
 
 let token = null;
 
+// set token
 const setToken = (newToken) => {
   token = `bearer ${newToken}`;
 };
 
+// get all employees
 const getAll = () => {
   const config = {
     headers: { Authorization: token },
@@ -15,6 +17,8 @@ const getAll = () => {
   const request = axios.get(baseUrl + "/employees", config);
   return request.then((response) => response.data);
 };
+
+// create new employee
 const createEmp = (emp) => {
   const config = {
     headers: { Authorization: token },
@@ -24,4 +28,5 @@ const createEmp = (emp) => {
   return request.then((response) => response.data);
 };
 
+// export all function
 export default { setToken, getAll, createEmp };
