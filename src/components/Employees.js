@@ -3,12 +3,15 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import Employee from "./Employee";
 import employeeService from "../services/employees";
 import taskService from "../services/tasks";
+import stats from "../services/stats";
 export default function Employees({
   employees,
   setEmployees,
   user,
   setMessage,
   setMessageColor,
+  stats,
+  setStats,
 }) {
   // all states for employee
   const [firstName, setFirstName] = useState("");
@@ -103,7 +106,7 @@ export default function Employees({
     <div>
       <h1>Employees</h1>
       <Row>
-        <Col xs={6}>
+        <Col xs={3}>
           {employees.map((employee) => (
             <Employee
               key={employee._id}
@@ -276,6 +279,9 @@ export default function Employees({
               Create
             </Button>
           </Form>
+        </Col>
+        <Col xs={3}>
+          <h1>{stats.finished}</h1>
         </Col>
       </Row>
     </div>

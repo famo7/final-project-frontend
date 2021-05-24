@@ -10,6 +10,8 @@ export default function Home({
   user,
   setMessageColor,
   setMessage,
+  stats,
+  setStats,
 }) {
   if (!isManager) {
     // if not manager, show assigned tasks
@@ -28,6 +30,8 @@ export default function Home({
         user={user}
         setMessage={setMessage}
         setMessageColor={setMessageColor}
+        stats={stats}
+        setStats={setStats}
       />
     );
   }

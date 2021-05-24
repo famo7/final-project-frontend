@@ -11,7 +11,7 @@ import messageService from "./services/messages";
 import MessageAlert from "./components/MessageAlert";
 import taskService from "./services/tasks";
 import employeeService from "./services/employees";
-
+import statsService from "./services/stats";
 const App = () => {
   // all state variables
   const [socialSecurityNumber, setSocialSecurityNumber] = useState("");
@@ -27,7 +27,7 @@ const App = () => {
   const [messageColor, setMessageColor] = useState("");
   const [tasks, setTasks] = useState([]);
   const [employees, setEmployees] = useState([]);
-
+  const [stats, setStats] = useState({});
   useEffect(() => {
     // check if employee is logged in using localstorage
     const loggedUserJSON = window.localStorage.getItem("loggedEmployee");
@@ -47,6 +47,9 @@ const App = () => {
         // if manager get all employees with all data
         employeeService.setToken(user.token);
         employeeService.getAll().then((e) => setEmployees(e));
+        // set token and get stats
+        statsService.setToken(user.token);
+        statsService.getAll().then((e) => setStats(e));
       }
     }
   }, []);
@@ -79,6 +82,8 @@ const App = () => {
         // else get everything for the manager
         employeeService.setToken(user.token);
         employeeService.getAll().then((e) => setEmployees(e));
+        statsService.setToken(user.token);
+        statsService.getAll().then((e) => setStats(e));
       }
 
       // set user and display success message after login
@@ -131,6 +136,8 @@ const App = () => {
                 user={user}
                 setMessage={setMessage}
                 setMessageColor={setMessageColor}
+                stats={stats}
+                setStats={setStats}
               />
             </Route>
             <Route exact path="/profile">
