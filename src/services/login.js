@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = "/api/login";
+const baseUrl = "https://empmanagementsystem.herokuapp.com/api/login";
 
 // login function
 const login = async (credentials) => {

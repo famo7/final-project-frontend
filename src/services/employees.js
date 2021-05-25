@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = "/api";
+const baseUrl = "https://empmanagementsystem.herokuapp.com/api";
 
 let token = null;
 
