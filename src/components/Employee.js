@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Button, Card, Col, Form, Modal, Row, Table } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Col,
+  Form,
+  Modal,
+  Row,
+  Table,
+  Accordion,
+} from "react-bootstrap";
 
 import taskService from "../services/tasks";
 import attendanceService from "../services/attendances";
@@ -114,132 +123,164 @@ export default function Employee({ employee, setEmployees, employees, user }) {
     );
   };
   return (
-    <div>
-      <Table striped bordered hover>
-        {/* display employee data using table*/}
-        <thead>
-          <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Address</th>
-            <th>Salary</th>
-            <th>Phone</th>
-
-            <th>Department</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{employee.firstName}</td>
-            <td>{employee.lastName}</td>
-            <td>{employee.email}</td>
-            <td>{employee.address}</td>
-            <td>{employee.salary}</td>
-            <td>{employee.phone}</td>
-
-            <td>{employee.department}</td>
-          </tr>
-        </tbody>
-      </Table>
+    <Table>
       <Row>
+        <Table striped bordered hover>
+          {/* display employee data using table*/}
+          <thead>
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Address</th>
+              <th>Salary</th>
+              <th>Phone</th>
+
+              <th>Department</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{employee.firstName}</td>
+              <td>{employee.lastName}</td>
+              <td>{employee.email}</td>
+              <td>{employee.address}</td>
+              <td>{employee.salary}</td>
+              <td>{employee.phone}</td>
+
+              <td>{employee.department}</td>
+            </tr>
+          </tbody>
+        </Table>
         <Col>
-          <h5>Attendances</h5>
-          {/* display employee attendances data using card*/}
-
-          {employee.attendances.map((att) => (
-            <Card className="col-xs-3 mb-3" key={att._id}>
+          <Accordion defaultActiveKey="0">
+            <Card border="success" bg="primary">
+              {/* display employee attendances data using card*/}
               <Card.Header>
-                Date: {att.date.year}/{att.date.month}/{att.date.day}
+                <Accordion.Toggle as={Button} variant="button" eventKey="1">
+                  <h5>Attendances</h5>
+                </Accordion.Toggle>
               </Card.Header>
-              <Card.Body>
-                <Card.Text>{getAttDesc(att)}</Card.Text>
-                <Button
-                  onClick={() => delAttendance(att._id)}
-                  variant="danger"
-                  className="mr-5"
-                >
-                  Delete Attendance
-                </Button>
-                <Button className="mr-5" onClick={() => setShow(true)}>
-                  Update
-                </Button>
-                <Modal show={show} onHide={handleClose} animation={false}>
-                  <Modal.Header closeButton>
-                    <Modal.Title>Update Attendance</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    {/* use form inside modal body*/}
+              <Accordion.Collapse eventKey="1">
+                <Card.Body>
+                  {employee.attendances.map((att) => (
+                    <Card className="col-xs-3 mb-3" key={att._id}>
+                      <Card.Header>
+                        Date: {att.date.year}/{att.date.month}/{att.date.day}
+                      </Card.Header>
+                      <Card.Body>
+                        <Card.Text>{getAttDesc(att)}</Card.Text>
+                        <Button
+                          onClick={() => delAttendance(att._id)}
+                          variant="danger"
+                          className="mr-5"
+                        >
+                          Delete Attendance
+                        </Button>
+                        <Button className="mr-5" onClick={() => setShow(true)}>
+                          Update
+                        </Button>
+                        <Modal
+                          show={show}
+                          onHide={handleClose}
+                          animation={false}
+                        >
+                          <Modal.Header closeButton>
+                            <Modal.Title>Update Attendance</Modal.Title>
+                          </Modal.Header>
+                          <Modal.Body>
+                            {/* use form inside modal body*/}
 
-                    <Form>
-                      <Form.Group controlId="reason">
-                        <Form.Label>Reason</Form.Label>
-                        <Form.Control
-                          type="text"
-                          placeholder="Enter address"
-                          value={reason}
-                          onChange={(e) => setReason(e.target.value)}
-                        />
-                      </Form.Group>
-                      <Form.Group controlId="date">
-                        <Form.Label>Date</Form.Label>
-                        <Form.Control
-                          type="date"
-                          style={{ width: "100%" }}
-                          value={date}
-                          onChange={(e) => setDate(e.target.value)}
-                        />
-                      </Form.Group>
-                      <Form.Group controlId="formCheckbox">
-                        <Form.Check
-                          type="checkbox"
-                          label="Vacation"
-                          onClick={() => setVacation(!vacation)}
-                        />
-                        <Form.Check
-                          type="checkbox"
-                          label="Absent"
-                          onClick={() => setAbsent(!absent)}
-                        />
-                      </Form.Group>
-                    </Form>
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                      Close
-                    </Button>
-                    {/* if clicked update attendance, call handleUpdate function*/}
+                            <Form>
+                              <Form.Group controlId="reason">
+                                <Form.Label>Reason</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  placeholder="Enter address"
+                                  value={reason}
+                                  onChange={(e) => setReason(e.target.value)}
+                                />
+                              </Form.Group>
+                              <Form.Group controlId="date">
+                                <Form.Label>Date</Form.Label>
+                                <Form.Control
+                                  type="date"
+                                  style={{ width: "100%" }}
+                                  value={date}
+                                  onChange={(e) => setDate(e.target.value)}
+                                />
+                              </Form.Group>
+                              <Form.Group controlId="formCheckbox">
+                                <Form.Check
+                                  type="checkbox"
+                                  label="Vacation"
+                                  onClick={() => setVacation(!vacation)}
+                                />
+                                <Form.Check
+                                  type="checkbox"
+                                  label="Absent"
+                                  onClick={() => setAbsent(!absent)}
+                                />
+                              </Form.Group>
+                            </Form>
+                          </Modal.Body>
+                          <Modal.Footer>
+                            <Button variant="secondary" onClick={handleClose}>
+                              Close
+                            </Button>
+                            {/* if clicked update attendance, call handleUpdate function*/}
 
-                    <Button type="button" onClick={() => handleUpdate(att._id)}>
-                      Update Attendance
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
-              </Card.Body>
+                            <Button
+                              type="button"
+                              onClick={() => handleUpdate(att._id)}
+                            >
+                              Update Attendance
+                            </Button>
+                          </Modal.Footer>
+                        </Modal>
+                      </Card.Body>
+                    </Card>
+                  ))}
+                </Card.Body>
+              </Accordion.Collapse>
             </Card>
-          ))}
+          </Accordion>
         </Col>
         <Col>
-          <h5>Tasks</h5>
-          {/* display employee tasks using card*/}
+          <Accordion defaultActiveKey="0">
+            <Card border="success" bg="primary">
+              {/* display employee tasks using card*/}
+              <Card.Header>
+                <Accordion.Toggle as={Button} variant="button" eventKey="1">
+                  <h5>Tasks</h5>
+                </Accordion.Toggle>
+              </Card.Header>
+              <Accordion.Collapse eventKey="1">
+                <Card.Body>
+                  {employee.tasks.map((task) => (
+                    <Card className="col-xs-3 mb-3" key={task._id}>
+                      <Card.Header>created by: {task.createdBy}</Card.Header>
+                      <Card.Body>
+                        <Card.Title>{task.title}</Card.Title>
 
-          {employee.tasks.map((task) => (
-            <Card className="col-xs-3 mb-3" key={task._id}>
-              <Card.Header>created by: {task.createdBy}</Card.Header>
-              <Card.Body>
-                <Card.Title>{task.title}</Card.Title>
-
-                <Card.Text>{task.description}</Card.Text>
-                <Card.Text>{task.status}</Card.Text>
-                {/* call delTask with task id when clicked*/}
-                <Button onClick={() => delTask(task._id)} variant="danger">
-                  Delete Task
-                </Button>
-              </Card.Body>
+                        <Card.Text>{task.description}</Card.Text>
+                        <Card.Text>{task.status}</Card.Text>
+                        {/* call delTask with task id when clicked*/}
+                        <Button
+                          onClick={() => delTask(task._id)}
+                          variant="danger"
+                        >
+                          Delete Task
+                        </Button>
+                      </Card.Body>
+                    </Card>
+                  ))}
+                </Card.Body>
+              </Accordion.Collapse>
             </Card>
-          ))}
+          </Accordion>
         </Col>
       </Row>
-    </div>
+    </Table>
   );
 }
