@@ -147,6 +147,9 @@ const App = () => {
                 newPass={newPass}
                 setNewPass={setNewPass}
                 userId={user.id}
+                setMessage={setMessage}
+                setMessageColor={setMessageColor}
+                user={user}
               />
             </Route>
             <Route exact path="/messages">

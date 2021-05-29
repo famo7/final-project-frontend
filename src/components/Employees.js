@@ -1,10 +1,20 @@
 import React, { useState } from "react";
-import { Button, Col, Form, Tabs, Tab } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Form,
+  Tabs,
+  Tab,
+  Dropdown,
+  DropdownButton,
+} from "react-bootstrap";
 import Employee from "./Employee";
 import employeeService from "../services/employees";
 import taskService from "../services/tasks";
 //import stats from "../services/stats";
 import CanvasJSReact from "../canvasjs.react";
+import DropdownMenu from "react-bootstrap/esm/DropdownMenu";
+import DropdownItem from "react-bootstrap/esm/DropdownItem";
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 export default function Employees({
   employees,
@@ -63,6 +73,19 @@ export default function Employees({
           setMessage(null);
         }, 5000);
       });
+  };
+
+  const getAllEmployeeSocSec = () => {
+    // get all social security numbers for drop down
+
+    var allSocSec = [];
+    employees.forEach(function (emp) {
+      // check if employee is not manager
+      if (!emp.isManager) {
+        allSocSec.push(emp.socialSecurityNumber);
+      }
+    });
+    return allSocSec;
   };
   const handleCreateEmp = (e) => {
     // prevent default
@@ -135,7 +158,6 @@ export default function Employees({
   return (
     // render all employees using Employee component
     <div>
-      {" "}
       {/* Tabs on the order to split the manager home page */}
       <Tabs defaultActiveKey="profile" id="uncontrolled-tab">
         {/* The first Tab is employees info tab */}
@@ -192,15 +214,23 @@ export default function Employees({
                 />
               </Form.Group>
 
-              <Form.Group controlId="assignedTo">
-                <Form.Label>Task to</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Social sec in form: 111111-1111"
-                  value={assignedTo}
-                  onChange={(e) => setAssignedTo(e.target.value)}
-                />
+              <Form.Group>
+                <select
+                  id="person-select"
+                  onChange={(e) => {
+                    setAssignedTo(e.target.value);
+                  }}
+                >
+                  <option disabled selected value>
+                    -- select an person --
+                  </option>
+
+                  {getAllEmployeeSocSec().map((soc) => (
+                    <option>{soc}</option>
+                  ))}
+                </select>
               </Form.Group>
+
               <Button variant="primary" type="submit">
                 Assign
               </Button>
